@@ -43,7 +43,7 @@ def lambda_handler(event, context):
     print("currentAlertStatus",currentAlertStatus)
     
     # now just look for the alert labels
-    labelRe = re.search('^ - alertname = (.+)', line)
+    labelRe = re.search('^- alertname = (.+)', line)
     if(labelRe):
       currentAlertLabel = labelRe.group(1)
       if currentAlertLabel == "" or currentAlertLabel != previous_alert:
