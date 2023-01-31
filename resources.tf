@@ -93,9 +93,7 @@ resource "aws_lambda_permission" "allow_sns_invoke" {
 
 resource "aws_dynamodb_table" "dynamodb-table" {
   name           = "tf-EKS_cluster_monitoring"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 20
-  write_capacity = 20
+  billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "cluster_name"
   range_key      = "alert_name"
 
