@@ -52,7 +52,7 @@ def lambda_handler(event, context):
         previous_alert = currentAlertLabel
         # write to dynamodb, override whatever is there
         data = client.put_item(
-          TableName='EKS_cluster_monitoring',
+          TableName='tf-EKS_cluster_monitoring',
           Item={
               'cluster_name': {
                 'S': clusterName
