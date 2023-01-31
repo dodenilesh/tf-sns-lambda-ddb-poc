@@ -11,7 +11,7 @@ data "archive_file" "lambda_zip" {
 
 resource "aws_lambda_function" "ReceivePrometheusSNSNotifications" {
     filename         = "${path.module}/lambda/ReceivePrometheusSNSNotifications.zip"
-    function_name    = "ReceivePrometheusSNSNotifications"
+    function_name    = "tf-ReceivePrometheusSNSNotifications"
     role             = "${aws_iam_role.lambda_role.arn}"
     handler          = "ReceivePrometheusSNSNotifications.lambda_handler"
     source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
@@ -79,13 +79,13 @@ EOF
 resource "aws_sns_topic_subscription" "invoke_with_sns" {
   topic_arn = aws_sns_topic.sns_topic.arn
   protocol  = "lambda"
-  endpoint  = aws_lambda_function.ReceivePrometheusSNSNotifications.function_arn
+  endpoint  = aws_lambda_function.ReceivePrometheusSNSNotifications.arn
 }
 
 resource "aws_lambda_permission" "allow_sns_invoke" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.ReceivePrometheusSNSNotifications.function_name
+  function_name = "tf-ReceivePrometheusSNSNotifications"
   principal     = "sns.amazonaws.com"
   source_arn    = aws_sns_topic.sns_topic.arn
 }
